@@ -1,7 +1,7 @@
 const KafkaJS = require("kafkajs");
-
 const LZ4 = require("kafkajs-lz4");
 
+const argv = process.argv
 const topic = argv[2];
 const consumerId = argv[3];
 const brokers = argv[4];
