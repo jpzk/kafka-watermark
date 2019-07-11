@@ -2,9 +2,12 @@ const KafkaJS = require("kafkajs");
 const registry = require("avro-schema-registry")("http://localhost:8081");
 const LZ4 = require("kafkajs-lz4");
 
-const consumerId = consumerId;
+
+const consumerId = "test-watermark-bitcoin-blocks";
 const brokers = "172.31.0.16:9092";
-const topic = topic
+const topic = "bitcoin-confirmed-blocks"
+
+
 
 const kafka = new KafkaJS.Kafka({
   clientId: consumerId,
@@ -76,9 +79,7 @@ consumer.run({
         console.log("Processed until " + current);
       }
     } catch (e) {
-      this.logger.error(`${topic}: ${e.message}`);
-      this.errorMeter.mark(1);
-    }
-  }
+      console.log(e)
+  }}
 });
 })
