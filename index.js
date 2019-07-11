@@ -5,7 +5,6 @@ const LZ4 = require("kafkajs-lz4");
 const topic = argv[2];
 const consumerId = argv[3];
 const brokers = argv[4];
-const registry = argv[5];
 const field = argv[6]
 
 const registry = require("avro-schema-registry")(argv[5]);
