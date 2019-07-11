@@ -35,9 +35,15 @@ KafkaJS.CompressionCodecs[KafkaJS.CompressionTypes.LZ4] = new LZ4().codec;
 
 var watermark = -1;
 
-function isValid(watermark, currentBlockNumber) {
-  if (watermark < currentBlockNumber) return true;
+function isValid(watermark, current) {
+  if (watermark < current) return true;
   else return false;
+}
+
+function isStrictIncrease(watermark, current) {
+  if (watermark + 1 === current) {
+    return true 
+  } else return false
 }
 
 consumer.run({
@@ -46,21 +52,28 @@ consumer.run({
       const decodedData = await registry.decode(message.value);
 
       // get blockNumber
-      const blockNumber = decodedData.blockNumber;
+      const current = decodedData.blockNumber;
 
       // check if higher than watermark
-      if (!isValid(watermark, blockNumber)) {
+      if (!isValid(watermark, current)) {
         console.log(
-          `Found a duplicate at ${blockNumber}, watermark is ${watermark}`
+          `Found a duplicate at ${current}, watermark is ${watermark}`
         );
+        process.exit()
+      }
+
+      if (!isStrictIncrease(watermark, current)) {
+        console.log(
+          `Found a missing record between ${watermark} - ${current}`)
+        process.exit()  
       }
 
       // set watermark
-      watermark = blockNumber;
+      watermark = current;
 
       // give output to user
-      if (blockNumber % 100 === 0) {
-        console.log("Processed until " + blockNumber);
+      if (current % 100 === 0) {
+        console.log("Processed until " + current);
       }
     } catch (e) {
       this.logger.error(`${topic}: ${e.message}`);
