@@ -1,13 +1,14 @@
 const KafkaJS = require("kafkajs");
-const registry = require("avro-schema-registry")("http://localhost:8081");
+
 const LZ4 = require("kafkajs-lz4");
 
+const topic = argv[2];
+const consumerId = argv[3];
+const brokers = argv[4];
+const registry = argv[5];
+const field = argv[6]
 
-const consumerId = "test-watermark-bitcoin-blocks";
-const brokers = "172.31.0.16:9092";
-const topic = "bitcoin-confirmed-blocks"
-
-
+const registry = require("avro-schema-registry")(argv[5]);
 
 const kafka = new KafkaJS.Kafka({
   clientId: consumerId,
@@ -55,7 +56,7 @@ consumer.run({
       const decodedData = await registry.decode(message.value);
 
       // get blockNumber
-      const current = decodedData.blockNumber;
+      const current = decodedData[field];
 
       // check if higher than watermark
       if (!isValid(watermark, current)) {
