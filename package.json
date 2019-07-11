@@ -1,0 +1,25 @@
+{
+  "name": "kafka-watermark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpzk/kafka-watermark.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jpzk/kafka-watermark/issues"
+  },
+  "homepage": "https://github.com/jpzk/kafka-watermark#readme",
+  "dependencies": {
+    "avro-schema-registry": "^1.4.1",
+    "avsc": "^5.4.12",
+    "kafkajs": "1.9.3",
+    "kafkajs-lz4": "1.1.0"
+  }
+}
